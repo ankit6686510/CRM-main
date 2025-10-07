@@ -59,17 +59,21 @@ class RedisService {
     try {
       // If the URL contains command-line parameters, extract the actual URL
       if (rawUrl.includes('redis-cli')) {
-        // Extract URL from format: redis-cli --tls -u redis://...
-        const urlMatch = rawUrl.match(/redis:\/\/[^\s]+/);
+        // Handle both formats:
+        // Format 1: redis-cli --tls -u redis://...
+        // Format 2: redis-cli -u rediss://...
+        
+        // Extract URL from either redis:// or rediss://
+        const urlMatch = rawUrl.match(/redis[s]?:\/\/[^\s]+/);
         if (urlMatch) {
           let url = urlMatch[0];
           
-          // If --tls flag is present, use rediss:// for SSL
-          if (rawUrl.includes('--tls')) {
+          // If --tls flag is present and URL is not already SSL, convert to SSL
+          if (rawUrl.includes('--tls') && !url.startsWith('rediss://')) {
             url = url.replace('redis://', 'rediss://');
           }
           
-          console.log(`🔧 Parsed Redis URL from command-line format: ${url.substring(0, 20)}...`);
+          console.log(`🔧 Parsed Redis URL from command-line format: ${url.substring(0, 25)}...`);
           return url;
         }
       }
