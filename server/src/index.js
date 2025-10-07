@@ -8,6 +8,7 @@ dotenv.config({
 import connectDB from "./db/index.js";
 import redisService from "./config/redis.js";
 import CustomerConsumer from "./consumers/customer.consumer.js";
+import campaignConsumer from "./consumers/campaign.consumer.js";
 
 import { app } from "./app.js";
 
@@ -21,6 +22,7 @@ const gracefulShutdown = async (signal) => {
   try {
     // Stop consumers
     customerConsumer.stop();
+    await campaignConsumer.stop();
     
     // Disconnect Redis
     await redisService.disconnect();
@@ -50,6 +52,7 @@ const startApp = async () => {
     
     // Start consumer services
     await customerConsumer.start();
+    await campaignConsumer.start();
     console.log('✅ Consumer services started');
     
     // Start HTTP server
