@@ -9,13 +9,24 @@ class RedisService {
 
   async connect() {
     try {
-      // Create Redis clients
-      this.client = createClient({
-        url: process.env.REDIS_URL || 'redis://localhost:6379',
+      // Parse Redis URL from environment variable
+      const redisUrl = this.parseRedisUrl(process.env.REDIS_URL || 'redis://localhost:6379');
+      
+      // Create Redis clients with proper configuration
+      const clientConfig = {
+        url: redisUrl,
         socket: {
           reconnectStrategy: (retries) => Math.min(retries * 50, 1000)
         }
-      });
+      };
+
+      // Add TLS configuration for production Redis services
+      if (redisUrl.startsWith('rediss://') || redisUrl.includes('upstash.io')) {
+        clientConfig.socket.tls = true;
+        clientConfig.socket.rejectUnauthorized = false; // For managed Redis services
+      }
+
+      this.client = createClient(clientConfig);
 
       this.publisher = this.client.duplicate();
       this.subscriber = this.client.duplicate();
@@ -40,6 +51,34 @@ class RedisService {
     } catch (error) {
       console.error('❌ Failed to connect to Redis:', error);
       throw error;
+    }
+  }
+
+  // Parse Redis URL from environment variable (handles command-line format)
+  parseRedisUrl(rawUrl) {
+    try {
+      // If the URL contains command-line parameters, extract the actual URL
+      if (rawUrl.includes('redis-cli')) {
+        // Extract URL from format: redis-cli --tls -u redis://...
+        const urlMatch = rawUrl.match(/redis:\/\/[^\s]+/);
+        if (urlMatch) {
+          let url = urlMatch[0];
+          
+          // If --tls flag is present, use rediss:// for SSL
+          if (rawUrl.includes('--tls')) {
+            url = url.replace('redis://', 'rediss://');
+          }
+          
+          console.log(`🔧 Parsed Redis URL from command-line format: ${url.substring(0, 20)}...`);
+          return url;
+        }
+      }
+      
+      // Return as-is if it's already a clean URL
+      return rawUrl;
+    } catch (error) {
+      console.error('❌ Error parsing Redis URL:', error);
+      return 'redis://localhost:6379'; // Fallback
     }
   }
 
