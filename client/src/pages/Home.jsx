@@ -32,7 +32,7 @@ const Home = () => {
               <div className="w-10 h-10 mr-3 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl flex items-center justify-center">
                 <span className="text-white font-bold text-xl">I</span>
               </div>
-              <span className="text-2xl font-bold" style={{color: '#1D4ED8'}}>InsightCRM</span>
+              <span className="text-2xl font-bold" style={{color: '#1D4ED8'}}>CRM</span>
             </Link>
             <div className="hidden md:flex items-center space-x-8">
               <a href="#features" className="text-slate-600 hover:text-slate-900 font-medium transition-colors">Features</a>
@@ -235,7 +235,7 @@ const Home = () => {
                 <div className="w-8 h-8 mr-3 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
                   <span className="text-white font-bold text-sm">I</span>
                 </div>
-                <span className="text-xl font-bold" style={{color: 'white'}}>InsightCRM</span>
+                <span className="text-xl font-bold" style={{color: 'white'}}>CRM</span>
               </Link>
               <p className="text-slate-400 max-w-md leading-relaxed">
                 Next-generation customer relationship management platform designed to help businesses build meaningful customer relationships and drive growth.
@@ -264,7 +264,7 @@ const Home = () => {
           <div className="border-t border-slate-800 pt-8">
             <div className="flex flex-col md:flex-row justify-between items-center">
               <p className="text-slate-400 text-sm">
-                © {new Date().getFullYear()} InsightCRM. All rights reserved.
+                © {new Date().getFullYear()} CRM. All rights reserved.
               </p>
               <div className="flex space-x-6 mt-4 md:mt-0">
                 <a
