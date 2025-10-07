@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 import { Customer } from "../models/customer.model.js";
 import { User } from "../models/user.model.js";
-import redisService, { addJob } from "../config/redis.js";
 
 // Helper function for error handling
 const handleError = (res, error, message = "An error occurred") => {
@@ -22,7 +21,7 @@ const verifyUserEmail = async (userId, userEmail) => {
   return true;
 };
 
-// Create a new customer (Pub-Sub Architecture)
+// Create a new customer
 export const createCustomer = async (req, res) => {
   try {
     const customerData = req.body;
@@ -45,53 +44,27 @@ export const createCustomer = async (req, res) => {
       });
     }
 
-    // Validate email format
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(customerData.email)) {
-      return res.status(400).json({
-        success: false,
-        message: "Invalid email format",
-      });
-    }
-
-    // Publish validation success event
-    await redisService.publish('customer.events', {
-      type: 'customer.validation.success',
-      data: {
-        email: customerData.email,
-        userId: req.user._id
-      }
+    const customer = new Customer({
+      ...customerData,
+      created_by: req.user._id,
+      created_by_email: userEmail, // Store the email of the user who created the customer
     });
+    await customer.save();
 
-    // Add job to queue for async processing
-    await addJob('customer.jobs', {
-      type: 'CREATE_CUSTOMER',
-      data: {
-        customerData,
-        userId: req.user._id,
-        userEmail: userEmail,
-      }
-    });
-
-    res.status(202).json({
+    res.status(201).json({
       success: true,
-      message: "Customer creation request submitted successfully. Processing asynchronously.",
-      data: {
-        status: 'processing',
-        email: customerData.email
-      }
+      data: customer,
+      message: "Customer created successfully",
     });
   } catch (error) {
-    // Publish validation failure event
-    await redisService.publish('customer.events', {
-      type: 'customer.validation.failed',
-      data: {
-        error: error.message,
-        email: req.body.email
-      }
-    });
-
-    handleError(res, error, "Failed to submit customer creation request");
+    if (error.code === 11000) {
+      // Duplicate key error
+      return res.status(400).json({
+        success: false,
+        message: "Email already exists",
+      });
+    }
+    handleError(res, error, "Failed to create customer");
   }
 };
 
@@ -326,7 +299,7 @@ export const getAllCustomers = async (req, res) => {
   }
 };
 
-// Upload customers via CSV (Pub-Sub Architecture)
+// Upload customers via CSV
 export const uploadCustomersCSV = async (req, res) => {
   try {
     if (!req.file) {
@@ -365,17 +338,20 @@ export const uploadCustomersCSV = async (req, res) => {
     const customers = [];
     const errors = [];
 
-    // Process each row (validation only)
+    // Process each row
     for (let i = 1; i < rows.length; i++) {
       if (!rows[i].trim()) continue; // Skip empty rows
 
       const values = rows[i].split(',').map(value => value.trim());
-      const customer = {};
+      const customer = {
+        created_by: req.user._id,
+        created_by_email: userEmail, // Add email of the user who uploaded
+      };
 
       // Initialize nested objects
-      customer.address = {};
-      customer.demographics = {};
-      customer.stats = {};
+      customer.address = customer.address || {};
+      customer.demographics = customer.demographics || {};
+      customer.stats = customer.stats || {};
 
       // Map CSV values to customer object
       headers.forEach((header, index) => {
@@ -401,13 +377,6 @@ export const uploadCustomersCSV = async (req, res) => {
         continue;
       }
 
-      // Validate email format
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(customer.email)) {
-        errors.push(`Row ${i + 1}: Invalid email format`);
-        continue;
-      }
-
       // Set default values for stats if not provided
       customer.stats.total_spent = customer.stats.total_spent || 0;
       customer.stats.order_count = customer.stats.order_count || 0;
@@ -425,30 +394,22 @@ export const uploadCustomersCSV = async (req, res) => {
     if (errors.length > 0) {
       return res.status(400).json({
         success: false,
-        message: 'Some rows had validation errors',
+        message: 'Some rows had errors',
         errors
       });
     }
 
-    // Add job to queue for async bulk import
-    await addJob('customer.jobs', {
-      type: 'BULK_IMPORT_CUSTOMERS',
-      data: {
-        customers,
-        userId: req.user._id,
-        userEmail: userEmail,
-      }
-    });
+    // Insert customers in batches
+    const batchSize = 100;
+    for (let i = 0; i < customers.length; i += batchSize) {
+      const batch = customers.slice(i, i + batchSize);
+      await Customer.insertMany(batch, { ordered: false });
+    }
 
-    res.status(202).json({
+    res.status(200).json({
       success: true,
-      message: `CSV validation completed. Processing ${customers.length} customers asynchronously.`,
-      data: {
-        status: 'processing',
-        totalRows: customers.length,
-        validRows: customers.length,
-        invalidRows: errors.length
-      }
+      message: `Successfully imported ${customers.length} customers`,
+      data: customers
     });
   } catch (error) {
     console.error('CSV Upload Error:', error);
