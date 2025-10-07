@@ -1,0 +1,21 @@
+name,email,phone,city,state,country,gender,age,occupation,total_spent,order_count,joined_date
+Rayyan,mr.rayyan112005@gmail.com,8324477770,Jaipur,Uttar Pradesh,India,male,25,Engineer,256.0,3,2024-04-10
+Ankit,ankit.jha@juspay.in,7816108331,Lucknow,West Bengal,India,male,28,Developer,100.03,1,2016-05-17
+Sai Malhotra,sai.malhotra.304@fastmail.com,9197045907,Chennai,Maharashtra,India,female,30,Designer,315.06,4,2015-11-13
+Sana Khan,sana.khan.104@outlook.com,8259636121,Chennai,Delhi,India,female,26,Manager,211.31,2,2025-08-20
+Karan Kumar,karan.kumar.413@yahoo.com,7788038403,Gurgaon,Karnataka,India,male,32,Analyst,224.34,3,2023-04-24
+Priya Nair,priya.nair.927@yahoo.com,8347753486,Lucknow,Delhi,India,female,29,Teacher,294.18,5,2019-03-28
+Maya Bose,maya.bose.953@hotmail.com,8415922023,Mumbai,Haryana,India,female,27,Artist,156.32,2,2020-02-17
+Neha Verma,neha.verma.691@hotmail.com,9465794356,Hyderabad,Maharashtra,India,female,31,Doctor,426.38,6,2023-06-11
+Tara Khan,tara.khan.799@fastmail.com,7088950293,Lucknow,Delhi,India,female,24,Student,114.26,1,2017-12-24
+Neha Mehta,neha.mehta.826@outlook.com,6326241149,Chennai,Haryana,India,female,33,Lawyer,227.36,3,2022-08-17
+Aisha Verma,aisha.verma.805@hotmail.com,7762574005,Gurgaon,Karnataka,India,female,28,Consultant,437.97,7,2022-08-11
+Karan Jha,karan.jha.948@gmail.com,7547797905,Kolkata,West Bengal,India,male,26,Writer,284.2,4,2025-04-23
+Mohd Jha,mohd.jha.66@yahoo.com,8953395990,Hyderabad,Tamil Nadu,India,male,35,Business Owner,110.72,1,2015-10-14
+Ishaan Agarwal,ishaan.agarwal.404@gmail.com,8383704789,New Delhi,Uttar Pradesh,India,male,29,Sales Executive,466.56,8,2017-04-13
+Mohd Agarwal,mohd.agarwal.943@hotmail.com,8895411651,Hyderabad,West Bengal,India,male,31,Marketing Manager,424.28,6,2020-06-11
+Mohd Mehta,mohd.mehta.77@hotmail.com,6441803931,Pune,Telangana,India,male,27,Software Engineer,255.89,3,2022-11-04
+Vivaan Gupta,vivaan.gupta.163@gmail.com,6328812761,Lucknow,Tamil Nadu,India,male,30,Product Manager,351.18,5,2017-09-28
+Mohd Gupta,mohd.gupta.283@gmail.com,8070544288,New Delhi,Tamil Nadu,India,male,28,Data Scientist,248.84,3,2020-02-22
+Aarav Rao,aarav.rao.358@hotmail.com,7792770170,Bengaluru,Maharashtra,India,male,26,UX Designer,139.32,2,2016-10-03
+Riya Gupta,riya.gupta.326@yahoo.com,6447493821,Gurgaon,Haryana,India,female,25,Content Writer,283.11,4,2024-01-02
