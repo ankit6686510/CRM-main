@@ -33,8 +33,8 @@ const debugCampaignLogs = asyncHandler(async (req, res) => {
       opened_at: log.opened_at,
       clicked_at: log.clicked_at,
       trackingUrls: {
-        open: `https://insightcrm.onrender.com/api/track/open/${log.message_id}`,
-        click: `https://insightcrm.onrender.com/api/track/click/${log.message_id}?url=https://example.com`
+        open: `https://insightcrm-main.onrender.com/api/track/open/${log.message_id}`,
+        click: `https://insightcrm-main.onrender.com/api/track/click/${log.message_id}?url=https://example.com`
       }
     }))
   };

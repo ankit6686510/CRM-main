@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  baseURL: "https://insightcrm.onrender.com/api",
+  baseURL: "https://insightcrm-main.onrender.com/api",
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
