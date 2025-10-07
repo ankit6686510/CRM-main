@@ -10,7 +10,7 @@ class CampaignConsumer {
 
   async start() {
     if (this.isRunning) {
-      console.log('⚠️ Campaign Consumer already running');
+      console.log(' Campaign Consumer already running');
       return;
     }
 
@@ -18,10 +18,18 @@ class CampaignConsumer {
     console.log('🚀 Starting Campaign Consumer Service...');
 
     try {
-      // Start processing campaign jobs
-      await processJobs('campaign.jobs', this.processCampaignJob.bind(this));
+      // Start processing campaign jobs (non-blocking)
+      processJobs('campaign.jobs', this.processCampaignJob.bind(this))
+        .catch(error => {
+          console.error(' Campaign Consumer Error:', error);
+          this.isRunning = false;
+        });
+      
+      console.log(' Subscribed to campaign.events');
+      console.log(' Started processing queue: campaign.jobs');
+      console.log(' Campaign Consumer Service started successfully');
     } catch (error) {
-      console.error('❌ Campaign Consumer Error:', error);
+      console.error(' Campaign Consumer Error:', error);
       this.isRunning = false;
       throw error;
     }
@@ -30,7 +38,7 @@ class CampaignConsumer {
   async processCampaignJob(job) {
     const { type, campaignId, customers, messageContent } = job;
 
-    console.log(`📧 Processing campaign job: ${type} for campaign ${campaignId}`);
+    console.log(` Processing campaign job: ${type} for campaign ${campaignId}`);
 
     try {
       switch (type) {
@@ -38,10 +46,10 @@ class CampaignConsumer {
           await this.deliverCampaign(job);
           break;
         default:
-          console.log(`⚠️ Unknown campaign job type: ${type}`);
+          console.log(` Unknown campaign job type: ${type}`);
       }
     } catch (error) {
-      console.error(`❌ Failed to process campaign job ${campaignId}:`, error);
+      console.error(` Failed to process campaign job ${campaignId}:`, error);
       throw error;
     }
   }
@@ -56,7 +64,7 @@ class CampaignConsumer {
         started_at: new Date()
       });
 
-      console.log(`📦 Starting campaign delivery: ${campaignId} to ${customers.length} customers`);
+      console.log(` Starting campaign delivery: ${campaignId} to ${customers.length} customers`);
 
       let sentCount = 0;
       let failedCount = 0;
@@ -68,7 +76,7 @@ class CampaignConsumer {
       for (let batchIndex = 0; batchIndex < batches.length; batchIndex++) {
         const batch = batches[batchIndex];
         
-        console.log(`📨 Processing batch ${batchIndex + 1}/${batches.length} (${batch.length} emails)`);
+        console.log(` Processing batch ${batchIndex + 1}/${batches.length} (${batch.length} emails)`);
 
         // Create communication logs for this batch
         const communicationLogs = await this.createCommunicationLogs(batch, campaignId, messageContent);
@@ -90,7 +98,7 @@ class CampaignConsumer {
           sentCount += batchResult.sent;
           failedCount += batchResult.failed;
 
-          console.log(`✅ Batch ${batchIndex + 1} completed: ${batchResult.sent} sent, ${batchResult.failed} failed`);
+          console.log(` Batch ${batchIndex + 1} completed: ${batchResult.sent} sent, ${batchResult.failed} failed`);
 
           // Add delay between batches to avoid overwhelming
           if (batchIndex < batches.length - 1) {
@@ -98,7 +106,7 @@ class CampaignConsumer {
           }
 
         } catch (batchError) {
-          console.error(`❌ Batch ${batchIndex + 1} failed:`, batchError);
+          console.error(` Batch ${batchIndex + 1} failed:`, batchError);
           failedCount += batch.length;
 
           // Mark all emails in this batch as failed
@@ -125,10 +133,10 @@ class CampaignConsumer {
         }
       });
 
-      console.log(`🎯 Campaign ${campaignId} completed: ${sentCount} sent, ${failedCount} failed`);
+      console.log(` Campaign ${campaignId} completed: ${sentCount} sent, ${failedCount} failed`);
 
     } catch (error) {
-      console.error(`❌ Campaign delivery failed for ${campaignId}:`, error);
+      console.error(` Campaign delivery failed for ${campaignId}:`, error);
 
       // Mark campaign as failed
       await Campaign.findByIdAndUpdate(campaignId, {
