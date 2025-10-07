@@ -33,6 +33,7 @@ import segmentRouter from "./routes/segment.route.js";
 import trackingRouter from "./routes/tracking.route.js";
 import debugRouter from "./routes/debug.route.js";
 import testRouter from "./routes/test.route.js";
+import queueRouter from "./routes/queue.route.js";
 import globalErrorHandler from "./middleware/errorhandler.middleware.js";
 
 // routes declaration
@@ -45,6 +46,7 @@ app.use("/api/segment", segmentRouter);
 app.use("/api/track", trackingRouter);
 app.use("/api/debug", debugRouter);
 app.use("/api/test", testRouter);
+app.use("/api/queue", queueRouter);
 // https://localhost:8000/api/v1/users/xyz
 
 app.use(globalErrorHandler);
