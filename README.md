@@ -426,7 +426,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📞 Support
 
 For support and questions:
-- **Email**: mr.rayyan2005@gmail.com, ankit6686510@gmail.com
+- **Email**: mr.ankit2005@gmail.com, ankit6686510@gmail.com
 - **Phone**: +91 98977 00769, +91 93109 34230
 - **Issues**: [GitHub Issues](https://github.com/your-username/insightcrm/issues)
 

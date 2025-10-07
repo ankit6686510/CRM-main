@@ -193,11 +193,11 @@ const Home = () => {
           <h2 className="text-3xl font-bold text-slate-900 text-center mb-6">Contact</h2>
           <div className="bg-white rounded-3xl p-6 shadow-lg border border-slate-200/50 backdrop-blur-sm">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <a href="mailto:mr.rayyan2005@gmail.com" className="flex items-center p-3 rounded-2xl bg-gradient-to-r from-blue-50 to-blue-100/50 hover:from-blue-100 hover:to-blue-200/50 hover:text-blue-700 transition-all duration-300 group border border-blue-100/50 hover:border-blue-200 hover:shadow-md">
+              <a href="mailto:mr.ankit2005@gmail.com" className="flex items-center p-3 rounded-2xl bg-gradient-to-r from-blue-50 to-blue-100/50 hover:from-blue-100 hover:to-blue-200/50 hover:text-blue-700 transition-all duration-300 group border border-blue-100/50 hover:border-blue-200 hover:shadow-md">
                 <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mr-3 group-hover:scale-110 transition-transform">
                   <FiMail className="w-4 h-4 text-white" />
                 </div>
-                <span className="font-medium">mr.rayyan2005@gmail.com</span>
+                <span className="font-medium">ahjtikna@gmail.com</span>
               </a>
               <a href="mailto:ankit6686510@gmail.com" className="flex items-center p-3 rounded-2xl bg-gradient-to-r from-purple-50 to-purple-100/50 hover:from-purple-100 hover:to-purple-200/50 hover:text-purple-700 transition-all duration-300 group border border-purple-100/50 hover:border-purple-200 hover:shadow-md">
                 <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-purple-600 rounded-xl flex items-center justify-center mr-3 group-hover:scale-110 transition-transform">
@@ -209,7 +209,7 @@ const Home = () => {
                 <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-green-600 rounded-xl flex items-center justify-center mr-3 group-hover:scale-110 transition-transform">
                   <FiPhone className="w-4 h-4 text-white" />
                 </div>
-                <span className="font-medium">+91 98977 00769</span>
+                <span className="font-medium">+91 9310934230</span>
               </a>
               <a href="tel:+919310934230" className="flex items-center p-3 rounded-2xl bg-gradient-to-r from-orange-50 to-orange-100/50 hover:from-orange-100 hover:to-orange-200/50 hover:text-orange-700 transition-all duration-300 group border border-orange-100/50 hover:border-orange-200 hover:shadow-md">
                 <div className="w-8 h-8 bg-gradient-to-r from-orange-500 to-orange-600 rounded-xl flex items-center justify-center mr-3 group-hover:scale-110 transition-transform">
@@ -268,7 +268,7 @@ const Home = () => {
               </p>
               <div className="flex space-x-6 mt-4 md:mt-0">
                 <a
-                  href="https://github.com/mrrayyan2005/"
+                  href="https://github.com/mrankit2005/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-slate-400 hover:text-white transition-colors"
@@ -276,7 +276,7 @@ const Home = () => {
                   <FiGithub className="w-5 h-5" />
                 </a>
                 <a
-                  href="https://linkedin.com/in/mohd-rayyan-380173285/"
+                  href="https://linkedin.com/in/ankit-ankit-380173285/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-slate-400 hover:text-white transition-colors"
