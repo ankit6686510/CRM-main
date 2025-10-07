@@ -7,7 +7,7 @@ import {
   publishTestEvent, 
   getSystemStatus 
 } from "../controllers/queue.controller.js";
-import { verifyJWT } from "../middleware/auth.middleware.js";
+import { authenticate } from "../middleware/auth.middleware.js";
 
 const router = Router();
 
@@ -15,7 +15,7 @@ const router = Router();
 router.route("/health").get(getRedisHealth);
 
 // Protected endpoints (require authentication)
-router.use(verifyJWT); // Apply authentication middleware to all routes below
+router.use(authenticate); // Apply authentication middleware to all routes below
 
 // Queue monitoring routes
 router.route("/stats").get(getQueueStats);
